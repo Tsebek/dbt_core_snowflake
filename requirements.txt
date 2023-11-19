@@ -1,1 +1,2 @@
+dbt-core
 dbt-snowflake
