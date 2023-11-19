@@ -20,16 +20,16 @@ jobs:
     # Steps of the workflow:
     steps:
       - name: Checkout
-	uses: actions/checkout@v3
+	      uses: actions/checkout@v3
 
       - name: Setup Python environment
-	uses: actions/setup-python@v4
-	with:
-	  python-version: "3.11"
+	      uses: actions/setup-python@v4
+	    with:
+	      python-version: "3.11"
 
       - name: Install dependencies
 	run: |
-          python3 -m pip install --upgrade pip
+        python3 -m pip install --upgrade pip
 	  # python -m pip install -r requirements.txt
 	
       - name: Install dbt packages
