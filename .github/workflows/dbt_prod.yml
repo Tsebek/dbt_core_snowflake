@@ -30,18 +30,18 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-        #  python3 -m pip install -r requirements.txt
-	
+          python3 -m pip install -r requirements.txt
+
       - name: Install dbt packages
 	      run: dbt deps
         # optionally use this parameter
         # to set a main directory of dbt project:
         # working-directory: ./my_dbt_project
-	    	
+    	
       - name: Run the models
 	      run: dbt run
 	# working-directory: ./my_dbt_project
-	
+
       - name: Run tests
 	      run: dbt test
         # working-directory: ./my_dbt_project
