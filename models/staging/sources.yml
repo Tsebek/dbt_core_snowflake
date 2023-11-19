@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: financial__economic_essentials
+    database: financial__economic_essentials
+    schema: cybersyn
+    tables:
+      - name: geography_index
+      - name: bureau_of_labor_statistics_price_timeseries
+      - name: bureau_of_labor_statistics_price_attributes
+      - name: bureau_of_labor_statistics_employment_timeseries
