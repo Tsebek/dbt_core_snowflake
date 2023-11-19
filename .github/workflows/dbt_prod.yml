@@ -2,7 +2,7 @@ name: Daily dbt production run
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   DBT_PROFILE_TARGET: prod
