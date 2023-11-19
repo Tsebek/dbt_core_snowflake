@@ -1,11 +1,10 @@
 name: Daily dbt production run
 
-# CRON job to run dbt at midnight UTC(!) everyday
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  push:
+    branches:
+      - main 
 
-# Setting some Env variables to work  with profiles.yml
 env:
   DBT_PROFILE_TARGET: prod
   DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
@@ -17,10 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     
-    # Steps of the workflow:
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: Setup Python environment
         uses: actions/setup-python@v4
@@ -31,18 +29,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-        working-directory: dbt_core_snowflake
 
       - name: Install dbt packages
         run: dbt deps
         # optionally use this parameter
         # to set a main directory of dbt project:
-        working-directory: dbt_core_snowflake
+        # working-directory: ./my_dbt_project
 
       - name: Run the models
         run: dbt run
-        working-directory: dbt_core_snowflake
+        # working-directory: ./my_dbt_project
 
       - name: Run tests
         run: dbt test
-        working-directory: dbt_core_snowflake
+        # working-directory: ./my_dbt_project
