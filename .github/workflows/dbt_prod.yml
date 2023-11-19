@@ -34,15 +34,15 @@ jobs:
         working-directory: dbt_core_snowflake
 
       - name: Install dbt packages
-	      run: dbt deps
+        run: dbt deps
         # optionally use this parameter
         # to set a main directory of dbt project:
         working-directory: dbt_core_snowflake
 
       - name: Run the models
-	      run: dbt run
+        run: dbt run
         working-directory: dbt_core_snowflake
 
       - name: Run tests
-	      run: dbt test
+        run: dbt test
         working-directory: dbt_core_snowflake
