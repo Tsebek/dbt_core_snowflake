@@ -1,0 +1,47 @@
+name: Daily dbt production run
+
+# CRON job to run dbt at midnight UTC(!) everyday
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+# Setting some Env variables to work  with profiles.yml
+env:
+  DBT_PROFILE_TARGET: prod
+  DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
+  DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSWORD }}
+
+jobs:
+  dbt_run:
+    name: Scheduled dbt refresh and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    
+    # Steps of the workflow:
+    steps:
+      - name: Checkout
+	uses: actions/checkout@v3
+
+      - name: Setup Python environment
+	uses: actions/setup-python@v4
+	with:
+	  python-version: "3.11"
+
+      - name: Install dependencies
+	run: |
+          python3 -m pip install --upgrade pip
+	  # python -m pip install -r requirements.txt
+	
+      - name: Install dbt packages
+	run: dbt deps
+        # optionally use this parameter
+        # to set a main directory of dbt project:
+        # working-directory: ./my_dbt_project
+	    	
+      - name: Run the models
+	run: dbt run
+	# working-directory: ./my_dbt_project
+	
+      - name: Run tests
+	run: dbt test
+        # working-directory: ./my_dbt_project
