@@ -42,7 +42,7 @@ models:
     transform:
           schema: transform
           materialized: view
-          +snowflake_warehouse: dbt_dev_heavy_wh
+          +snowflake_warehouse: dbt_prod_heavy_wh
     mart:
           schema: mart
           materialized: view
