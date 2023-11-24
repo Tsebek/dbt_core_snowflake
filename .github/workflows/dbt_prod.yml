@@ -28,18 +28,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-        working-directory: ./
+        # working-directory: ./
 
       - name: Install dbt packages
-        run: dbt deps
+        run: dbt deps --profile dbt_core_snowflake_github --target prod --profiles-dir ./
         # optionally use this parameter
         # to set a main directory of dbt project:
         working-directory: ./
 
       - name: Run the models
-        run: dbt run --profile dbt_core_snowflake_github --target prod
+        run: dbt run --profile dbt_core_snowflake_github --target prod --profiles-dir ./
         working-directory: ./
 
       - name: Run tests
-        run: dbt test --profile dbt_core_snowflake_github --target prod
+        run: dbt test --profile dbt_core_snowflake_github --target prod --profiles-dir ./
         working-directory: ./
