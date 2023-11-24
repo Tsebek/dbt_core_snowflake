@@ -1,4 +1,3 @@
-
 select 
     "Date"
     , geo_id
