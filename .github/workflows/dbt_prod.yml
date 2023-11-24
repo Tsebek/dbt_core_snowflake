@@ -33,12 +33,12 @@ jobs:
         run: dbt deps
         # optionally use this parameter
         # to set a main directory of dbt project:
-        working-directory: /Users/tsebek/Documents/Git/02_dbt_core_snowflake/dbt_core_snowflake
+        working-directory: ./dbt_core_snowflake
 
       - name: Run the models
         run: dbt run --profile dbt_core_snowflake_github --target prod
-        working-directory: /Users/tsebek/Documents/Git/02_dbt_core_snowflake/dbt_core_snowflake
+        working-directory: ./dbt_core_snowflake
 
       - name: Run tests
         run: dbt test --profile dbt_core_snowflake_github --target prod
-        working-directory: /Users/tsebek/Documents/Git/02_dbt_core_snowflake/dbt_core_snowflake
+        working-directory: ./dbt_core_snowflake
