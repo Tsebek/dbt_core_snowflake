@@ -2,7 +2,7 @@ name: Daily dbt production run
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   DBT_PROFILE_TARGET: prod
@@ -36,9 +36,9 @@ jobs:
         # working-directory: ./my_dbt_project
 
       - name: Run the models
-        run: dbt run --profile dbt_core_snowflake --target prod
+        run: dbt run --profile dbt_core_snowflake_github --target prod
         # working-directory: ./my_dbt_project
 
       - name: Run tests
-        run: dbt test --profile dbt_core_snowflake --target prod
+        run: dbt test --profile dbt_core_snowflake_github --target prod
         # working-directory: ./my_dbt_project

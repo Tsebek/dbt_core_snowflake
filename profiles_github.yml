@@ -1,0 +1,11 @@
+dbt_core_snowflake_github:
+  outputs:
+    prod:
+      type: snowflake
+      account: "zinblvy-ojb87252"
+      user: "{{ env_var('DBT_PROFILE_USER') }}"
+      role: dbt_prod_role
+      password: "{{ env_var('DBT_PROFILE_PASSWORD') }}"
+      database: dbt_hol_prod
+      warehouse: dbt_prod_wh
+      schema: public
