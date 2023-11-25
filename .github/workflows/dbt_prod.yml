@@ -65,6 +65,9 @@ jobs:
     - name: Build Docker image
       run: docker build -t dbt-docker .
 
+    - name: Copy DBT profiles file
+      run: cp profiles_github.yml ~/.dbt/profiles.yml
+
     - name: Run DBT Project
       run: |
         docker run \
