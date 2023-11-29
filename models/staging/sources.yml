@@ -1,11 +1,15 @@
 version: 2
 
 sources:
-  - name: financial__economic_essentials
-    database: financial__economic_essentials
-    schema: cybersyn
+  - name: brazil_ecomm
+    description: Brazilian E-Commerce Public Dataset by Olist
+    database: raw
+    schema: brazil_ecomm
     tables:
-      - name: geography_index
-      - name: bureau_of_labor_statistics_price_timeseries
-      - name: bureau_of_labor_statistics_price_attributes
-      - name: bureau_of_labor_statistics_employment_timeseries
+      - name: OLIST_CUSTOMERS_DATASET
+      - name: OLIST_ORDER_ITEMS_DATASET
+      - name: OLIST_ORDER_PAYMENTS_DATASET
+      - name: OLIST_ORDERS_DATASET
+      - name: OLIST_PRODUCTS_DATASET
+      - name: PRODUCT_CATEGORY_NAME_TRANSLATION
+      - name: OLIST_SELLERS_DATASET

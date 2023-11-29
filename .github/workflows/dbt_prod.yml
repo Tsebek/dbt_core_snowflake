@@ -1,85 +1,51 @@
-# name: Daily dbt production run
+name: dbt production run on push branches to main
 
-# on:
-#   push:
-#     branches: [ main ]
+on:
+  push:
+    branches: [ main ]
 
-# env:
-#   DBT_PROFILE_TARGET: prod
-#   DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
-#   DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSWORD }}
-
-# jobs:
-#   dbt_run:
-#     name: Scheduled dbt refresh and test
-#     runs-on: ubuntu-latest
-#     timeout-minutes: 90
-    
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-
-#       - name: Setup Python environment
-#         uses: actions/setup-python@v4
-#         with:
-#           python-version: "3.11"
-
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           python -m pip install -r requirements.txt
-#         # working-directory: ./
-
-#       - name: Prepare DBT profiles directory
-#         run: |
-#           mkdir -p ~/.dbt
-#           cp profiles_github.yml ~/.dbt/profiles.yml
-#         working-directory: ./
-
-#       - name: Install dbt packages
-#         run: dbt deps
-#         # optionally use this parameter
-#         # to set a main directory of dbt project:
-#         working-directory: ./
-
-#       - name: Run the models
-#         run: dbt run --profile dbt_core_snowflake_github --target prod
-#         working-directory: ./
-
-#       - name: Run tests
-#         run: dbt test --profile dbt_core_snowflake_github --target prod
-#         working-directory: ./
-
-name: Run DBT in Docker
-
-on: [push]
+env:
+  DBT_PROFILE_TARGET: prod
+  DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
+  DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSWORD }}
 
 jobs:
-  build-and-run-dbt:
+  dbt_run:
+    name: dbt refresh and test on push branches to main
     runs-on: ubuntu-latest
-
+    timeout-minutes: 90
+    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Build Docker image
-      run: docker build -t dbt-docker .
+      - name: Setup Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Copy DBT profiles file
-      run: cp profiles_github.yml ~/.dbt/profiles.yml
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+        # working-directory: ./
 
-    - name: Run DBT Project
-      run: |
-        docker run \
-          -e DBT_PROFILES_DIR=/dbt \
-          -e SNOWFLAKE_USER=${{ secrets.DBT_PROFILE_USER }} \
-          -e SNOWFLAKE_PASSWORD=${{ secrets.DBT_PROFILE_PASSWORD }} \
-          dbt-docker dbt run --profile dbt_core_snowflake_github --target prod
+      # - name: Prepare DBT profiles directory
+      #   run: |
+      #     mkdir -p ~/.dbt
+      #     cp profiles_github.yml ~/.dbt/profiles.yml
+      #   working-directory: ./
 
-    - name: Test DBT Project
-      run: |
-        docker run \
-          -e DBT_PROFILES_DIR=/dbt \
-          -e SNOWFLAKE_USER=${{ secrets.DBT_PROFILE_USER }} \
-          -e SNOWFLAKE_PASSWORD=${{ secrets.DBT_PROFILE_PASSWORD }} \
-          dbt-docker dbt test --profile dbt_core_snowflake_github --target prod
+      - name: Install dbt packages
+        run: dbt deps
+        # optionally use this parameter
+        # to set a main directory of dbt project:
+        working-directory: ./
+
+      - name: Run the models
+        run: dbt run --profiles-dir ./ --profile github_actions --target prod
+        working-directory: ./
+
+      - name: Run tests
+        run: dbt test --profiles-dir ./ --profile github_actions --target prod
+        working-directory: ./

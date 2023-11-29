@@ -1,4 +1,4 @@
-dbt_core_snowflake_github:
+github_actions:
   outputs:
     prod:
       type: snowflake
