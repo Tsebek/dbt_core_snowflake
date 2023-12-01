@@ -2,7 +2,7 @@ github_actions:
   outputs:
     prod:
       type: snowflake
-      account: "zinblvy-ojb87252"
+      account: "{{ env_var('DBT_PROFILE_ACCOUNT') }}"
       user: "{{ env_var('DBT_PROFILE_USER') }}"
       role: dbt_prod_role
       password: "{{ env_var('DBT_PROFILE_PASSWORD') }}"
@@ -13,7 +13,7 @@ dbt_core_snowflake:
   outputs:
     dev:
       type: snowflake
-      account: "zinblvy-ojb87252"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: dbt_dev_role
