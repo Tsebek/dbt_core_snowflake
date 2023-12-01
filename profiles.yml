@@ -9,3 +9,16 @@ github_actions:
       database: dbt_hol_prod
       warehouse: dbt_prod_wh
       schema: public
+dbt_core_snowflake:
+  outputs:
+    dev:
+      type: snowflake
+      account: "zinblvy-ojb87252"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: dbt_dev_role
+      database: dbt_hol_dev
+      warehouse: dbt_dev_wh
+      schema: public
+      threads: 200
+  target: dev
