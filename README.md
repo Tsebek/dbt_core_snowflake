@@ -1,17 +1,17 @@
-## dbt core with Docker, GitHub Actions, Fivetran and Hex
+# dbt core with Docker, GitHub Actions, Fivetran and Hex
 
-### Objectives
+## Objectives
 
 Run dbt project in Docker container that utilises public Brazilian ecomm dataset to demonstrate how to schedule dbt models through GitHub Actions for orchestration.
 
-### Some explanations
+## Some explanations
 
 - We use Docker in order to keep the same environment in different machines
 - You can use AWS, Azure, GCP or any other data warehouse or database instead of Snowflake
 - You can use any BI tool instead of Hex
 - You can use Airflow or other tools for orchestration instead of GitHub Actions
 
-### Requirements
+## Requirements
 
 - dbt [fundamentals](https://courses.getdbt.com/courses/fundamentals)
 - Docker [1 hour crash course](https://www.youtube.com/watch?v=pg19Z8LL06w) or this [3 hours course](https://www.youtube.com/watch?v=_uZQtRyF6Eg&t=9978s)
@@ -22,16 +22,26 @@ Run dbt project in Docker container that utilises public Brazilian ecomm dataset
 - Hex trial
 - GitHub account
 
-### Steps
+## Architecture
 
-#### Snowflake
+1) Dataset was saved on Google Drive
+2) With Fivetran we can extract the data to the Snowflake
+3) Transform data using dbt on Docker container
+4) Set up orchestration with GitHub Actions
+5) Analysis and reporting using Hex notebook
+
+![Alt text](screenshots/4.png)
+
+## Steps
+
+### Snowflake
 
 - Create in Snowflake new roles, warehouse, databases and schemas for your dbt project. It's great to have "dev" and "prod" roles and databases. If you have warehouse (compute) for each role, then you can optimize your cost.
 We are going to use "DBT_HOL_DEV" and "DBT_HOL_PROD" databases.
 ![Alt text](screenshots/1.png)
 You can learn more about roles, warehouse, databases in [this tutorial](https://quickstarts.snowflake.com/guide/data_teams_with_dbt_core/index.html#2)
 
-#### dbt
+### dbt
 - Create new folder "my_new_project". In this folder we will create folder with virtual environment and folder with dbt project
 - Go to this folder in terminal/cmd
 ```javascript
@@ -87,7 +97,7 @@ Target "dev" means that we want to build dbt model in "dev" database
 deactivate
 ```
 
-#### GitHub
+### GitHub
 
 - Create a GitHub repository with the project name.
 In the folder with dbt project run the command
@@ -96,13 +106,13 @@ git remote add origin <SSH path>
 git push -u origin main
 ```
 
-#### Fivetran
+### Fivetran
 
 - We can use Snowflake storage for our CSV, but it allows to download files less than 50 Mb. One of our files from Brazilian dataset is more than 50 Mb, so we can use Amazon S3 bucket, Azure Storage, GCP or just our Google Drive and Fivetran to connect it with Snowflake
 
 - After connection Fivetran creates schema with our files
 
-#### Return to the dbt
+### Return to the dbt
 
 - It's easy to use VSCode. In the terminal, you need to choose folder with dbt project and activate the virtual environment
 ```javascript
@@ -124,7 +134,7 @@ dbt run --models staging
 
 - If "dbt run" works without errors, we can implement GitHub Actions
 
-#### GitHub Actions
+### GitHub Actions
 
 - In the folder with our dbt project we need to create folder ".github" and inside this folder another one with the name "workflows". it's our target folder where we save our "dbt_prod.yml" (or your file name) file for GitHub Actions. It's our step by step description. We can choose trigger, for example, on Push or timestamp
 
@@ -157,7 +167,7 @@ dbt-snowflake
 
 - Eventually, we can run GitHub Actions and check the result
 
-#### Docker
+### Docker
 
 - Create "Dockerfile" in the directory with dbt project
 
@@ -170,7 +180,7 @@ docker build -t my-dbt-project .
 docker run -e SNOWFLAKE_ACCOUNT=<account> -e SNOWFLAKE_USER=<user> -e SNOWFLAKE_PASSWORD=<password> my-dbt-project
 ```
 
-#### Hex
+### Hex
 
 - We can use it for data analysis and building dashboards. It's not so powerful like Tableau or Power BI, but it's enough to build some simple dashboard and share it
 
@@ -179,7 +189,7 @@ docker run -e SNOWFLAKE_ACCOUNT=<account> -e SNOWFLAKE_USER=<user> -e SNOWFLAKE_
 - After that we can use our mart layer (or whatever you want)
 ![Alt text](screenshots/3.png)
 
-### Summary
+## Summary
 
 Now anyone can work with dbt project. Docker allows to keep the environment and you can avoid issues with "it's not working on my machine". 
 There are few steps how to work with dbt project:
