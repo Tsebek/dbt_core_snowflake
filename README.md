@@ -20,7 +20,7 @@ Run dbt project in Docker container that utilises public Brazilian ecomm dataset
 - Fivetran trial
 - Snowflake trial (or any data warehouse)
 - Hex trial
-- GitHub account
+- GitHub account [useful post](https://dbtips.substack.com/p/run-dbt-with-github-actions)
 
 ## Architecture
 
